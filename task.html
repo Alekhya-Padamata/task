@@ -2,84 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Guess the Number Game</title>
+  <title>Rock Paper Scissors</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #74ebd5, #9face6);
       text-align: center;
+      background: #f0f8ff;
       padding: 50px;
     }
-    .game-container {
-      background: white;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      width: 400px;
-      margin: auto;
-    }
-    input {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px 0;
-    }
+    h1 { color: #333; }
     button {
       padding: 10px 20px;
-      font-size: 16px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #45a049;
-    }
-    #message {
-      margin-top: 15px;
+      margin: 10px;
       font-size: 18px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: none;
+      background: #4caf50;
+      color: white;
+    }
+    button:hover { background: #45a049; }
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
       font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="game-container">
-    <h1>🎮 Guess the Number 🎲</h1>
-    <p>I am thinking of a number between 1 and 100.</p>
-    <input type="number" id="guessInput" placeholder="Enter your guess" />
-    <br>
-    <button onclick="checkGuess()">Submit Guess</button>
-    <p id="message"></p>
-    <button onclick="restartGame()">Restart Game</button>
-  </div>
+  <h1>✊✋✌ Rock Paper Scissors</h1>
+  <p>Choose one:</p>
+  
+  <button onclick="play('Rock')">Rock</button>
+  <button onclick="play('Paper')">Paper</button>
+  <button onclick="play('Scissors')">Scissors</button>
+
+  <p id="result"></p>
 
   <script>
-    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    function play(userChoice) {
+      // Computer makes a random choice
+      let choices = ["Rock", "Paper", "Scissors"];
+      let computerChoice = choices[Math.floor(Math.random() * 3)];
 
-    function checkGuess() {
-      let userGuess = document.getElementById("guessInput").value;
-      let message = document.getElementById("message");
+      let result = "";
 
-      if (userGuess == randomNumber) {
-        message.textContent = "🎉 Correct! You guessed it!";
-        message.style.color = "green";
-      } else if (userGuess > randomNumber) {
-        message.textContent = "📉 Too high! Try again.";
-        message.style.color = "red";
-      } else if (userGuess < randomNumber) {
-        message.textContent = "📈 Too low! Try again.";
-        message.style.color = "red";
+      // Game logic
+      if (userChoice === computerChoice) {
+        result = "It's a Tie! 🤝 Both chose " + userChoice;
+      } else if (
+        (userChoice === "Rock" && computerChoice === "Scissors") ||
+        (userChoice === "Paper" && computerChoice === "Rock") ||
+        (userChoice === "Scissors" && computerChoice === "Paper")
+      ) {
+        result = "🎉 You Win! " + userChoice + " beats " + computerChoice;
       } else {
-        message.textContent = "Please enter a valid number!";
-        message.style.color = "orange";
+        result = "😢 You Lose! " + computerChoice + " beats " + userChoice;
       }
-    }
 
-    function restartGame() {
-      randomNumber = Math.floor(Math.random() * 100) + 1;
-      document.getElementById("guessInput").value = "";
-      document.getElementById("message").textContent = "Game restarted! 🎮";
-      document.getElementById("message").style.color = "blue";
+      // Show result
+      document.getElementById("result").textContent = result;
     }
   </script>
 </body>
